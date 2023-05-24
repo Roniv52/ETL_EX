@@ -1,7 +1,6 @@
 import datetime
-
+from es_pandas import es_pandas
 import pandas as pd
-
 
 def main():
     duration_map = {
@@ -31,8 +30,9 @@ def main():
     countries_df['country'] = countries_df['country'].str.lstrip()
     countries_df['listed_in'] = countries_df['listed_in'].str.lstrip()
     print(countries_df.groupby(['country', 'listed_in']).size())
-
-    # print(df.to_string())
+    ep = es_pandas('http://localhost:9200/')
+    ep.init_es_tmpl(df, 'demo')
+    ep.to_es(df, 'netflix_show', doc_type='demo')
 
 
 if __name__ == '__main__':
